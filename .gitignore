@@ -5,3 +5,11 @@ ForeverThanksAlpakka/*/
 .DS_Store
 Thumbs.db
 *.swp
+
+# 构建产物
+deps*/
+build/
+build-cmake/
+*.log
+.pio/
+*.uf2
