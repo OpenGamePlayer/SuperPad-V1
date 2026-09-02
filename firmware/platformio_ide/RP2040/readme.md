@@ -1,5 +1,10 @@
 # Alpakka Firmware
 
+> **SuperPad-V1 移植说明**：本目录已适配 PlatformIO（原生 pico-sdk）。
+> - 编译：`pio run`（默认目标 `alpakka_v0`），产物 `.pio/build/alpakka_v0/firmware.uf2`。
+> - 烧录：`pio run -t upload`（Pico 需进入 BOOTSEL）。
+> - 配置/钩子/已知限制见 [../../README.md](../../README.md)「PlatformIO」一节；以下是上游原始 README（Makefile 路线参考）。
+
 *Alpakka controller reference firmware (for Raspberry Pi Pico)*
 ## Project links
 - [Alpakka Manual](https://inputlabs.io/devices/alpakka/manual).

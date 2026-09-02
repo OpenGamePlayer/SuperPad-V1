@@ -6,6 +6,10 @@ ForeverThanksAlpakka/*/
 Thumbs.db
 *.swp
 
+# 嘉立创 EDA 专业版自动备份目录
+superpad_v1_main_backup/
+*_backup/
+
 # 构建产物
 deps*/
 build/

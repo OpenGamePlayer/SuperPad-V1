@@ -1,5 +1,10 @@
 # Alpakka Firmware
 
+> **SuperPad-V1 移植说明**：本目录为 Keil MDK 路线（与 PlatformIO 同源）。
+> - 移植步骤见 [PORT_TO_KEIL.md](PORT_TO_KEIL.md)（推荐 CMake 导出 uVision 工程）。
+> - 首次编译前先运行 `scripts/version.sh` 生成 `src/headers/version.h`（已 gitignore）。
+> - 以下是上游原始 README（Makefile 路线参考）。
+
 *Alpakka controller reference firmware (for Raspberry Pi Pico)*
 ## Project links
 - [Alpakka Manual](https://inputlabs.io/devices/alpakka/manual).

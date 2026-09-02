@@ -1,5 +1,10 @@
 # Alpakka Firmware
 
+> **SuperPad-V1 移植说明**：本目录已适配 Arduino（earlephilhower arduino-pico 核心）。
+> - 编译：`./build.ps1`（Windows 一键，详见 [PORT_TO_ARDUINO.md](PORT_TO_ARDUINO.md)）。
+> - 产物：`RP2040.ino.uf2`，拖入 BOOTSEL 模式的 Pico 即可烧录。
+> - 以下是上游原始 README（Makefile 路线参考）。
+
 *Alpakka controller reference firmware (for Raspberry Pi Pico)*
 ## Project links
 - [Alpakka Manual](https://inputlabs.io/devices/alpakka/manual).
