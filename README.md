@@ -13,11 +13,14 @@
 ```
 SuperPad-V1/
 ├── LICENSE                    # GPL-2.0
+├── BOM.md                     # 硬件物料清单（Alpakka 主板 + Marmota 模块）
 ├── hardware/                  # 硬件设计
 │   ├── superpad_v1_main.eprj2 # 嘉立创 EDA 专业版工程（本项目）
 │   ├── alpakka_kicad/         # 上游 Alpakka KiCad 源文件（参考）
 │   └── IMPORT_ALPAKKA_TO_LCEDA.md  # 导入嘉立创 EDA 指南
 ├── firmware/                  # 固件（多平台）
+│   ├── arduino/               #   Arduino 平台
+│   │   └── RP2040/            #     RP2040（已验证可编译，UF2）
 │   ├── keil/                  #   Keil 工程
 │   │   └── RP2040/            #     RP2040（Alpakka 官方目标）
 │   └── platformio_ide/        #   PlatformIO 工程
@@ -27,9 +30,10 @@ SuperPad-V1/
 
 ## 快速开始
 
-- **硬件**：参照 `hardware/IMPORT_ALPAKKA_TO_LCEDA.md` 把 Alpakka 工程导入嘉立创 EDA 专业版。
+- **硬件**：先看 [BOM.md](BOM.md)，再参照 `hardware/IMPORT_ALPAKKA_TO_LCEDA.md` 把 Alpakka 工程导入嘉立创 EDA 专业版。
+- **固件（Arduino）**：`cd firmware/arduino/RP2040 && ./build.ps1`（详见 `firmware/arduino/RP2040/readme.md` 与 `PORT_TO_ARDUINO.md`）。
 - **固件（PlatformIO）**：见 `firmware/platformio_ide/RP2040/readme.md`。
-- **固件（Keil）**：见 `firmware/keil/RP2040/readme.md`。
+- **固件（Keil）**：见 `firmware/keil/RP2040/PORT_TO_KEIL.md`。
 
 ## 致谢
 
