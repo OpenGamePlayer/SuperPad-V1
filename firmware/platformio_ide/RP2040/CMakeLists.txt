@@ -23,8 +23,15 @@ else()
     if (EXISTS ./deps/pico-extras)
         set(PICO_EXTRAS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/deps/pico-extras)
         include(${CMAKE_CURRENT_SOURCE_DIR}/deps/pico-extras/external/pico_extras_import.cmake)
+    elseif (DEFINED ENV{PICO_EXTRAS_PATH} AND EXISTS $ENV{PICO_EXTRAS_PATH})
+        message("Using pico-extras from PICO_EXTRAS_PATH: $ENV{PICO_EXTRAS_PATH}")
+        include($ENV{PICO_EXTRAS_PATH}/external/pico_extras_import.cmake)
     else()
-        include(${CMAKE_CURRENT_SOURCE_DIR}/deps/pico-extras/external/pico_extras_import.cmake OPTIONAL)
+        # power.c includes <pico/sleep.h> (pico-extras pico_sleep); without it
+        # the build fails deep in compile with a confusing error. Fail fast at
+        # configure time instead.
+        message(FATAL_ERROR "pico-extras not found. Clone it into ./deps/pico-extras "
+                            "(or set PICO_EXTRAS_PATH). Needed for pico_sleep (pico/sleep.h).")
     endif()
 endif()
 

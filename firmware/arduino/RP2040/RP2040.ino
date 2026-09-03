@@ -17,7 +17,7 @@
 //     --build-property "compiler.c.extra_flags=-DDEVICE_ALPAKKA_V0=1 -DDEVICE_IS_ALPAKKA=1 -I src/headers" \
 //     .
 //
-// Or open this folder (SuperPadV1.ino) in Arduino IDE 2.x with the
+// Or open this folder (RP2040.ino) in Arduino IDE 2.x with the
 // "Raspberry Pi Pico/RP2040/RP2350" core (earlephilhower) installed, board
 // set to "Raspberry Pi Pico", and the DEVICE_* macros added to
 // Tools > Compiler flags / platform.local.txt.
