@@ -15,7 +15,7 @@ enclosure/
 │   ├── enclosure.blend       # 主文件, PCB + 25 元件占位 + 上下盖 + 4 按压杆
 │   └── enclosure.blend1      # Blender 自动生成
 ├── stl/
-│   ├── top.stl               # 上盖 STL (722 三角面, 36 KB)
+│   ├── top.stl               # 上盖 STL (732 三角面, 36 KB)
 │   ├── bottom.stl            # 底座 STL (992 三角面, 50 KB)
 │   └── rods.stl              # 按压杆 ×4 STL (112 三角面, 6 KB) - 独立小件
 ├── _shot_full.png            # Blender 渲染图（爆炸视图：底座+Marmota+主板+面板）
@@ -119,6 +119,8 @@ enclosure/
 | 元件最高点（摇杆顶 z=10）vs 面板 (z=3.5) | ✅ 摇杆体穿出面板 6.5 mm（开孔余量 ≥1.4 mm/边） |
 | 编码器顶 z=9 穿出面板 | ✅ 5.5 mm |
 | STL 文件有效（头校验通过） | ✅ bottom 992 三角 / top 732 三角 / rods 112 三角 |
+| **STL 边共享水密（每条边恰 2 三角形共享）** | ✅ 3/3 闭合流形（bottom/top/rods 边界边 0、过共享边 0） |
+| **主板板形核对（KiCad Edge.Cuts 实测）** | ✅ 占位 130×71 与板框一致；USB-C 缺口 x86–114、45° 斜切角（主板实际更小，外壳包容）、内部 7×13 孔（U3 编码器邻近，PCB 布局范畴，外壳无冲突） |
 
 ## 嘉立创 EDA 协作工作流
 
