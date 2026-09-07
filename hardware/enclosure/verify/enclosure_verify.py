@@ -51,7 +51,8 @@ def audit(path):
         a, b, c = t
         cr = cross(sub(b, a), sub(c, a))
         if norm(cr) < 1e-9: zero += 1
-        if dot(cr, sub((a[0] + b[0] + c[0]) / 3, (0, 0, 0))) < 0: neg += 1
+        cent = ((a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3, (a[2] + b[2] + c[2]) / 3)
+        if dot(cr, cent) < 0: neg += 1
         vol += dot(a, cross(b, c))
     vol /= 6
     # 4) 0.2mm 切片连续性(空层检测)
