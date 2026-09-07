@@ -191,6 +191,18 @@ enclosure/
 | 编码器延长 | 1 | 0.18 cm³ | 0.18 | 竖放（内孔朝床，孔口向下凹 3 mm） |
 | **合计** | **20** | — | **9.26 cm³** | rods.stl 单文件导入切片器后按件分离摆放 |
 
+## 交付文件校验和（SHA-256，下载后验证完整性）
+
+| 文件 | 大小 | SHA-256 |
+|---|---|---|
+| `bottom.stl` | 152284 B | `df20d125587dbccd` |
+| `top.stl` | 107484 B | `f0c9e75aa9427df3` |
+| `rods.stl` | 33884 B | `0e880041d6081a1d` |
+| `enclosure.blend` | 247035 B | `82278f45cdac1007` |
+| `_shot_full.png` | 698871 B | `7012b06403ca0dba` |
+| `_shot_exploded.png` | 805740 B | `2922923c72a2d331` |
+| `_shot_shell.png` | 690182 B | `302abaae2ec4992e` |
+
 ## 嘉立创 EDA 协作工作流
 
 ```
