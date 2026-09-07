@@ -58,6 +58,7 @@ enclosure/
 │   └── rods.stl              # 按压杆×4 + 肩键滑块×2(v6d斜楔) + 键帽×13 + 编码器延长×1 (676 三角面, 9.3 cm³) - 独立小件(打印方向:滑块帽朝下)
 ├── verify/
 │   └── enclosure_verify.py   # 验证套件 v12（12 项一键回归：水密/拓扑/装配/运动学/法线字段）
+├── QA_first_build.md         # 首版实测 QA 记录模板（装机后逐项填写：✓/✗+实测值，见 QA 章节使用说明）
 ├── _shot_full.png            # Blender 渲染图（装配视图：底壳+Marmota+主板+顶盖）
 ├── _shot_exploded.png        # 爆炸视图渲染图
 ├── _shot_shell.png           # 外壳单体视图渲染图
@@ -317,6 +318,7 @@ enclosure/
 | `_shot_full.png` | 698871 B | `7012b06403ca0dba` |
 | `_shot_exploded.png` | 805740 B | `2922923c72a2d331` |
 | `_shot_shell.png` | 690182 B | `302abaae2ec4992e` |
+| `QA_first_build.md` | 2184 B | `92764a6d0b454148` |
 | `verify/enclosure_verify.py` | 11665 B | `9b90c7a89dd4b284` |
 
 ## 嘉立创 EDA 协作工作流
