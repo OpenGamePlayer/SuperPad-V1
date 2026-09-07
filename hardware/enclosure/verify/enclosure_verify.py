@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Alpakka 外壳 STL 一键回归验证套件（无第三方依赖，纯 stdlib）
+Alpakka 外壳 STL 一键回归验证套件（无第三方依赖，纯 stdlib）— v12
 用法: python enclosure_verify.py [三STL目录=默认当前目录的 ../stl]
-输出: 水密(边界边)/连通性/体积断链/拓扑(非流形边·退化面·winding)/0.2mm切片连续性
+输出: 水密(边界边)/连通性+分量级水密/体积断链/拓扑(非流形边·退化面·winding)/0.2mm切片连续性/
+      自相交哨兵/装配间隙(0.25)/帽盘3D运动学(Ø15摆10.9°穿出=0)/STL法线字段一致性
 """
 import struct, os, sys, math
 from collections import defaultdict
