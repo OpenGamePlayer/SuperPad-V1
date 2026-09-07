@@ -19,6 +19,23 @@ def cross(a, b): return (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a
 def dot(a, b): return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
 def norm(a): return math.sqrt(dot(a, a))
 
+def tri_tri(t1, t2):
+    """Moller 分离轴: 两三角是否相交(含共面/边界接触)"""
+    axes = []
+    for i in range(3):
+        e1 = sub(t1[(i + 1) % 3], t1[i]); e2 = sub(t2[(i + 1) % 3], t2[i])
+        axes.append(cross(e1, e2))
+    axes.append(cross(sub(t1[1], t1[0]), sub(t1[2], t1[0])))
+    axes.append(cross(sub(t2[1], t2[0]), sub(t2[2], t2[0])))
+    for ax in axes:
+        L = norm(ax)
+        if L < 1e-12: continue
+        ax = (ax[0] / L, ax[1] / L, ax[2] / L)
+        p1 = [dot(v, ax) for v in t1]; p2 = [dot(v, ax) for v in t2]
+        if max(min(p1), min(p2)) > min(max(p1), max(p2)) + 1e-8:
+            return False
+    return True
+
 def audit(path):
     tris = load_stl(path)
     n = len(tris)
@@ -77,22 +94,54 @@ def audit(path):
                 if len(pts) == 2: nseg += 1
         if nseg == 0: empty += 1
         z = round(z + 0.2, 6)
-    return dict(n=n, bnd=bnd, nf=nf, comps=comps, vol=vol / 1000, zero=zero, neg=neg, empty=empty)
+    # 5) 自相交(快速回归: 6mm网格候选 + SAT + 过滤共享顶点/远距)
+    pen = 0
+    grid = defaultdict(list)
+    for i, t in enumerate(tris):
+        mn = (min(v[0] for v in t) // 6 * 6, min(v[1] for v in t) // 6 * 6, min(v[2] for v in t) // 6 * 6)
+        mx = (max(v[0] for v in t) // 6 * 6, max(v[1] for v in t) // 6 * 6, max(v[2] for v in t) // 6 * 6)
+        for gx in range(int(mn[0]), int(mx[0]) + 1, 6):
+            for gy in range(int(mn[1]), int(mx[1]) + 1, 6):
+                for gz in range(int(mn[2]), int(mx[2]) + 1, 6):
+                    grid[(gx, gy, gz)].append(i)
+    checked = set()
+    for ids in grid.values():
+        for a in range(len(ids)):
+            for b in range(a + 1, len(ids)):
+                i, j = ids[a], ids[b]
+                pair = (i, j) if i < j else (j, i)
+                if pair in checked: continue
+                checked.add(pair)
+                va = set(tuple(round(x, 4) for x in v) for v in tris[i])
+                vb = set(tuple(round(x, 4) for x in v) for v in tris[j])
+                if va & vb: continue  # 共享顶点坐标=布尔相邻面
+                if not tri_tri(tris[i], tris[j]): continue
+                ca = tuple(sum(v[k] for v in tris[i]) / 3 for k in range(3))
+                cb = tuple(sum(v[k] for v in tris[j]) / 3 for k in range(3))
+                if norm(sub(ca, cb)) >= 0.5: continue  # 远距相邻面(布尔细分)不计
+                na = cross(sub(tris[i][1], tris[i][0]), sub(tris[i][2], tris[i][0]))
+                nb = cross(sub(tris[j][1], tris[j][0]), sub(tris[j][2], tris[j][0]))
+                la, lb = norm(na), norm(nb)
+                cosv = dot(na, nb) / (la * lb) if la * lb > 0 else 1.0
+                if abs(cosv) > 0.95: continue  # 共面/近共面相邻细分面(正常, 切片器自动合并)
+                pen += 1  # 非共面+质心距<0.5 = 真穿透
+    return dict(n=n, bnd=bnd, nf=nf, comps=comps, vol=vol / 1000, zero=zero, neg=neg, empty=empty, pen=pen)
 
 def main():
     base = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "stl")
     ok = True
     for f in ("bottom", "top", "rods"):
         r = audit(os.path.join(base, f + ".stl"))
-        line = ("%s: %d tris | 边界=%d %s | 非流形=%d %s | 连通=%d | 体积=%.1fcm3 %s | 退化面=%d %s | winding负向=%d %s | 切片空层=%d %s"
+        line = ("%s: %d tris | 边界=%d %s | 非流形=%d %s | 连通=%d | 体积=%.1fcm3 %s | 退化面=%d %s | winding负向=%d %s | 切片空层=%d %s | 自相交=%d %s"
                 % (f, r["n"], r["bnd"], "OK" if r["bnd"] == 0 else "FAIL",
                    r["nf"], "OK" if r["nf"] == 0 else "FAIL",
                    r["comps"][0], r["vol"], "OK" if r["vol"] > 0 else "FAIL",
                    r["zero"], "OK" if r["zero"] == 0 else "FAIL",
                    r["neg"], "OK" if r["neg"] < r["n"] * 0.5 else "FAIL",
-                   r["empty"], "OK" if r["empty"] <= 1 else "FAIL"))
+                   r["empty"], "OK" if r["empty"] <= 1 else "FAIL",
+                   r["pen"], "OK" if r["pen"] == 0 else "FAIL"))
         print(line)
-        if r["bnd"] != 0 or r["nf"] != 0 or r["zero"] != 0: ok = False
+        if r["bnd"] != 0 or r["nf"] != 0 or r["zero"] != 0 or r["pen"] != 0: ok = False
     print("FINAL:", "PASS 全部健康" if ok else "FAIL 存在暗病")
     return 0 if ok else 1
 
