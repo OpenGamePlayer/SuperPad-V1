@@ -127,14 +127,26 @@ def audit(path):
                 pen += 1  # 非共面+质心距<0.5 = 真穿透
     return dict(n=n, bnd=bnd, nf=nf, comps=comps, vol=vol / 1000, zero=zero, neg=neg, empty=empty, pen=pen)
 
+def assembly_check(bottom_tris, top_tris):
+    """装配间隙: top 筒外壁(±77.75/±47.25) vs bottom 腔壁(±78/±47.5) = 0.25/边"""
+    bx = min(v[0] for t in bottom_tris for v in t if 77.9 <= v[0] <= 78.1 and 2.5 <= v[2] <= 34)
+    tx = max(v[0] for t in top_tris for v in t if 77.5 <= v[0] <= 77.9 and 2.5 <= v[2] <= 30)
+    by = min(v[1] for t in bottom_tris for v in t if 47.4 <= v[1] <= 47.6 and 2.5 <= v[2] <= 34)
+    ty = max(v[1] for t in top_tris for v in t if 47.1 <= v[1] <= 47.4 and 2.5 <= v[2] <= 30)
+    gx, gy = abs(bx - tx), abs(by - ty)
+    ok = abs(gx - 0.25) < 0.1 and abs(gy - 0.25) < 0.1
+    return gx, gy, ok
+
 def main():
     base = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "stl")
     # 自相交基线: bottom/top/rods 已确认候选对(布尔边界接触相邻面, 完整验证见 README)
     # 哨兵模式: 候选数 <= 基线*2+1 防数量级回归; 完整无真穿透由 Blender BVH+SAT 精测确认
     base_pen = {"bottom": 0, "top": 17, "rods": 0}
     ok = True
+    results = {}
     for f in ("bottom", "top", "rods"):
         r = audit(os.path.join(base, f + ".stl"))
+        results[f] = r
         pen_ok = r["pen"] <= base_pen[f] * 2 + 1
         line = ("%s: %d tris | 边界=%d %s | 非流形=%d %s | 连通=%d | 体积=%.1fcm3 %s | 退化面=%d %s | winding负向=%d %s | 切片空层=%d %s | 自相交候选=%d %s"
                 % (f, r["n"], r["bnd"], "OK" if r["bnd"] == 0 else "FAIL",
@@ -146,6 +158,10 @@ def main():
                    r["pen"], "OK" if pen_ok else "FAIL"))
         print(line)
         if r["bnd"] != 0 or r["nf"] != 0 or r["zero"] != 0 or not pen_ok: ok = False
+    # 装配级: bottom腔壁 vs top筒外壁 间隙 0.25/边
+    gx, gy, aok = assembly_check(results["bottom"], results["top"])
+    print("装配间隙: x=%.3fmm y=%.3fmm (期望0.25) %s" % (gx, gy, "OK" if aok else "FAIL"))
+    if not aok: ok = False
     print("FINAL:", "PASS 全部健康" if ok else "FAIL 存在暗病")
     return 0 if ok else 1
 
