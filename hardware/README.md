@@ -9,6 +9,7 @@ SuperPad-V1 硬件设计目录。
 | `superpad_v1_main.eprj2` | **本项目自有硬件工程**（嘉立创 EDA 专业版 `.eprj2`） |
 | `alpakka_kicad/` | Input Labs Alpakka 官方 **KiCad 8 源文件**（含 `projects/alpakka`、`projects/marmota`、`symbols`、`plugins`），用于导入嘉立创 EDA 作为参考 |
 | `IMPORT_ALPAKKA_TO_LCEDA.md` | **嘉立创 EDA 专业版导入 Alpakka 工程的分步指南**（先读这个） |
+| `enclosure/` | **3D 打印外壳交付**（Alpakka 造型 161×100×34 圆角矩形；STL×3 + Blender 源文件 + 渲染图 + 验证套件 v12 + 装配说明书/QA/风险全文档——详见 `enclosure/README.md`） |
 
 ## 当前状态
 
