@@ -137,6 +137,32 @@ def assembly_check(bottom_tris, top_tris):
     ok = abs(gx - 0.25) < 0.1 and abs(gy - 0.25) < 0.1
     return gx, gy, ok
 
+def cap_kinematics():
+    """帽盘3D运动学: 帽盘边缘绕球窝(z17)摆10.9°, 任意方位; 验证穿出孔缘=0"""
+    import math as _m
+    P = (34.0, 14.5, 17.0)
+    theta = _m.radians(10.9)
+    R = 7.5  # 帽盘 Ø15 (约束 ≤Ø15, R≤8.19 边界)
+    def rot(p, ax, ang):
+        c = _m.cos(ang); s = _m.sin(ang); x, y, z = p; a, b, d = ax
+        return (x * (c + a * a * (1 - c)) + y * (a * b * (1 - c) - d * s) + z * (a * d * (1 - c) + b * s),
+                x * (b * a * (1 - c) + d * s) + y * (c + b * b * (1 - c)) + z * (b * d * (1 - c) - a * s),
+                x * (d * a * (1 - c) - b * s) + y * (d * b * (1 - c) + a * s) + z * (c + d * d * (1 - c)))
+    max_over = 0.0
+    min_z = 99.0
+    for k in range(48):
+        phi = 2 * _m.pi * k / 48
+        axis = (-_m.sin(phi), _m.cos(phi), 0.0)
+        for m in range(24):
+            a0 = 2 * _m.pi * m / 24
+            e = (34.0 + R * _m.cos(a0), 14.5 + R * _m.sin(a0), 30.0)
+            rp = rot((e[0] - P[0], e[1] - P[1], e[2] - P[2]), axis, theta)
+            e2 = (rp[0] + P[0], rp[1] + P[1], rp[2] + P[2])
+            min_z = min(min_z, e2[2])
+            over = max(abs(e2[0] - 34), abs(e2[1] - 14.5)) - 10.5
+            if over > max_over: max_over = over
+    return max_over, min_z
+
 def main():
     base = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "stl")
     # 自相交基线: bottom/top/rods 已确认候选对(布尔边界接触相邻面, 完整验证见 README)
@@ -163,6 +189,11 @@ def main():
                                  load_stl(os.path.join(base, "top.stl")))
     print("装配间隙: x=%.3fmm y=%.3fmm (期望0.25) %s" % (gx, gy, "OK" if aok else "FAIL"))
     if not aok: ok = False
+    # 帽盘3D运动学: Ø15 摆10.9° 穿出孔缘=0
+    max_over, min_z = cap_kinematics()
+    k_ok = max_over <= 0 and min_z > 27.5
+    print("帽盘Ø15运动学: 摆10.9° 穿出孔缘=%.3fmm 边缘最低z=%.2f %s" % (max_over, min_z, "OK" if k_ok else "FAIL"))
+    if not k_ok: ok = False
     print("FINAL:", "PASS 全部健康" if ok else "FAIL 存在暗病")
     return 0 if ok else 1
 
