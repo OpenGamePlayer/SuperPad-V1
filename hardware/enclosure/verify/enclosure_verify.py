@@ -169,6 +169,25 @@ def cap_kinematics():
             if over > max_over: max_over = over
     return max_over, min_z
 
+def normal_check(path):
+    """STL法线字段 vs 顶点叉积: 要求全一致(全同向或全反向均可, 混乱=FAIL)"""
+    data = open(path, "rb").read()
+    n = struct.unpack("<I", data[80:84])[0]
+    neg = 0; total = 0
+    for i in range(n):
+        off = 84 + i * 50
+        nf = struct.unpack("<3f", data[off:off + 12])
+        v1 = struct.unpack("<3f", data[off + 12:off + 24])
+        v2 = struct.unpack("<3f", data[off + 24:off + 36])
+        v3 = struct.unpack("<3f", data[off + 36:off + 48])
+        cr = cross(sub(v2, v1), sub(v3, v1))
+        if norm(cr) < 1e-12: continue
+        nfl = norm(nf)
+        if nfl < 1e-12: continue
+        total += 1
+        if dot(nf, cr) < 0: neg += 1
+    return neg, total
+
 def main():
     base = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "stl")
     # 自相交基线: bottom/top/rods 已确认候选对(布尔边界接触相邻面, 完整验证见 README)
@@ -179,20 +198,21 @@ def main():
     for f in ("bottom", "top", "rods"):
         r = audit(os.path.join(base, f + ".stl"))
         results[f] = r
-        pen_ok = r["pen"] <= base_pen[f] * 2 + 1
-        open_ok = r["open"] == 0
-        line = ("%s: %d tris | 边界=%d %s | 非流形=%d %s | 连通=%d(分量%d) | 开口分量=%d %s | 体积=%.1fcm3 %s | 退化面=%d %s | winding负向=%d %s | 切片空层=%d %s | 自相交候选=%d %s"
+        ng, tot = normal_check(os.path.join(base, f + ".stl"))
+        n_ok = tot > 0 and min(ng, tot - ng) == 0  # 全一致
+        line = ("%s: %d tris | 边界=%d %s | 非流形=%d %s | 连通=%d(分量%d) | 开口分量=%d %s | 体积=%.1fcm3 %s | 退化面=%d %s | winding负向=%d %s | 切片空层=%d %s | 自相交候选=%d %s | 法线字段 %d/%d %s"
                 % (f, r["n"], r["bnd"], "OK" if r["bnd"] == 0 else "FAIL",
                    r["nf"], "OK" if r["nf"] == 0 else "FAIL",
                    r["comps"][0], r["ncomp"],
-                   r["open"], "OK" if open_ok else "FAIL",
+                   r["open"], "OK" if r["open"] == 0 else "FAIL",
                    r["vol"], "OK" if r["vol"] > 0 else "FAIL",
                    r["zero"], "OK" if r["zero"] == 0 else "FAIL",
                    r["neg"], "OK" if r["neg"] < r["n"] * 0.5 else "FAIL",
                    r["empty"], "OK" if r["empty"] <= 1 else "FAIL",
-                   r["pen"], "OK" if pen_ok else "FAIL"))
+                   r["pen"], "OK" if pen_ok else "FAIL",
+                   tot - ng, tot, "OK" if n_ok else "FAIL"))
         print(line)
-        if r["bnd"] != 0 or r["nf"] != 0 or r["zero"] != 0 or not pen_ok or not open_ok: ok = False
+        if r["bnd"] != 0 or r["nf"] != 0 or r["zero"] != 0 or not pen_ok or not open_ok or not n_ok: ok = False
     # 装配级: bottom腔壁 vs top筒外壁 间隙 0.25/边
     gx, gy, aok = assembly_check(load_stl(os.path.join(base, "bottom.stl")),
                                  load_stl(os.path.join(base, "top.stl")))
