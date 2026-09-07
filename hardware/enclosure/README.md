@@ -1,6 +1,6 @@
 # SuperPad-V1 (Alpakka) 外壳
 
-> **交付版本 v1.0**（几何冻结）：bottom = back_v12（3044 三角 / 87.5 cm³）、top = front_v8（2148 三角 / 61.6 cm³）、rods = v6（676 三角 / 9.3 cm³，20 件）。验证套件 `verify/enclosure_verify.py` v12 一键回归（水密/拓扑/装配/运动学/法线字段）。
+> **交付版本 v1.0**（几何冻结）：bottom = back_v12（3044 三角 / 87.5 cm³）、top = front_v8（2148 三角 / 61.6 cm³）、rods = v6d（676 三角 / 9.3 cm³，20 件；v6d = v6 斜楔修订版——滑块帽 13.6×11.6/沉槽 14.2×12.0 收窄帽晃）。验证套件 `verify/enclosure_verify.py` v12 一键回归（水密/拓扑/装配/运动学/法线字段）。
 > **维护规则**：任何 STL 几何修改后必须重跑验证套件并更新本 README 的三角数/体积/版本映射；PCB 修改后按文末"维护"指引重核。
 
 3D 打印外壳，覆盖 `superpad_v1_main` PCB（130 × 71.0 mm，主板，KiCad 工程 `alpakka.kicad_pcb`）+ Marmota 核心模块叠层（70 × 70 mm，B.Cu 侧板对板叠装）。
