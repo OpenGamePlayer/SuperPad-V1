@@ -163,6 +163,8 @@ enclosure/
 >
 > **切片器参数名对照**（同一参数在不同切片器叫法）：水平扩展 = Cura「Horizontal Expansion」/ PrusaSlicer「XY Size Compensation」/ Orca「XY Compensation」；壁数 = 「Wall Line Count」/「Perimeters」/「Wall Loops」；Z 缝 = 「Z Seam Alignment」（背面/角部）；床附着 = 「Brim」（底壳 3–5 mm、小件默认）。填充率 = 「Infill」20%。
 
+> **整机成本估算（参考）**：打印材料 ~35 元（PLA 250g 卷）+ 电子件 ~275 元（主板 150 / Marmota 80 / 按键·摇杆·编码器·肩键·扳机 40 / 帽盘·旋钮 20 / M3 螺丝 5 及备件）≈ **整机 ~310 元**；PETG 材料 +20 元。不含运费与工具（卡尺/螺丝刀）。
+
 ## 关键设计验证
 
 | 检查项 | 结果 |
