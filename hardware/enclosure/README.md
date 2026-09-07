@@ -155,6 +155,8 @@ enclosure/
 >
 > **底壳打印注意（USB 槽顶桥接）**：−Y 壁 USB 槽（14×8，z −0.3..29.7）贯穿壁厚 2.5；槽顶（z29.7）为壁环恢复实心的第一层——桥接面 2.5（短边）×14（长边）。切片器默认桥接沿短边（2.5，轻松）；若切片器沿 x 长边（14）则接近桥接极限，可在切片设置中强制桥接方向或加 0.5 mm 槽顶圆角。
 
+> **切片器参数名对照**（同一参数在不同切片器叫法）：水平扩展 = Cura「Horizontal Expansion」/ PrusaSlicer「XY Size Compensation」/ Orca「XY Compensation」；壁数 = 「Wall Line Count」/「Perimeters」/「Wall Loops」；Z 缝 = 「Z Seam Alignment」（背面/角部）；床附着 = 「Brim」（底壳 3–5 mm、小件默认）。填充率 = 「Infill」20%。
+
 ## 关键设计验证
 
 | 检查项 | 结果 |
