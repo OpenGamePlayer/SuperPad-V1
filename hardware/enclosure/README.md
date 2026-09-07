@@ -12,8 +12,7 @@
 ```
 enclosure/
 ├── blender/                  # Blender 源文件
-│   ├── enclosure.blend       # 主文件, PCB + 元件占位 + 底壳/顶盖 + 4 按压杆 + 2 肩键滑块
-│   └── enclosure.blend1      # Blender 自动生成
+│   └── enclosure.blend       # 主文件, PCB + 元件占位 + 底壳/顶盖 + 4 按压杆 + 2 肩键滑块
 ├── stl/
 │   ├── bottom.stl            # 底壳 STL (3044 三角面, 单连通水密开口壳, 87.5 cm³)
 │   ├── top.stl               # 顶盖 STL (2148 三角面, 单连通水密, 61.6 cm³, 含坐腔筒 z2.5-30, 滑块孔 11.6×14.8（沉槽 14.2×12.0 收窄帽晃 1.0→0.2）)
