@@ -56,7 +56,8 @@ enclosure/
 │   ├── top.stl               # 顶盖 STL (2148 三角面, 单连通水密, 61.6 cm³, 含坐腔筒 z2.5-30, 滑块孔 11.6×14.8（沉槽 14.2×12.0 收窄帽晃 1.0→0.2）)
 │   └── rods.stl              # 按压杆×4 + 肩键滑块×2(v6d斜楔) + 键帽×13 + 编码器延长×1 (676 三角面, 9.3 cm³) - 独立小件(打印方向:滑块帽朝下)
 ├── verify/
-│   └── enclosure_verify.py   # 验证套件 v12（12 项一键回归：水密/拓扑/装配/运动学/法线字段）
+│   ├── enclosure_verify.py   # 验证套件 v12（12 项一键回归：水密/拓扑/装配/运动学/法线字段）
+│   └── export_stl.py          # 维护工具：blend 几何修改后一键重导出 3 STL（Blender 5.x）
 ├── QA_first_build.md         # 首版实测 QA 记录模板（装机后逐项填写：✓/✗+实测值，见 QA 章节使用说明）
 ├── _shot_full.png            # Blender 渲染图（装配视图：底壳+Marmota+主板+顶盖）
 ├── _shot_exploded.png        # 爆炸视图渲染图
