@@ -159,7 +159,8 @@ def main():
         print(line)
         if r["bnd"] != 0 or r["nf"] != 0 or r["zero"] != 0 or not pen_ok: ok = False
     # 装配级: bottom腔壁 vs top筒外壁 间隙 0.25/边
-    gx, gy, aok = assembly_check(results["bottom"], results["top"])
+    gx, gy, aok = assembly_check(load_stl(os.path.join(base, "bottom.stl")),
+                                 load_stl(os.path.join(base, "top.stl")))
     print("装配间隙: x=%.3fmm y=%.3fmm (期望0.25) %s" % (gx, gy, "OK" if aok else "FAIL"))
     if not aok: ok = False
     print("FINAL:", "PASS 全部健康" if ok else "FAIL 存在暗病")
