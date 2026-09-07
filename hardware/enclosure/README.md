@@ -315,6 +315,13 @@ Blender z = 外壳坐标（底壳底 z=0，PCB 顶面 z=17 = 元件 z 中心 + �
 
 如需从 EDA 重新同步 PCB 元件位置，编辑 `enclosure.blend` 中 `PCB_Reference` 集合的子对象尺寸/位置即可。板框来源：`hardware/alpakka_kicad/projects/alpakka/alpakka.kicad_pcb`（嘉立创 `superpad_v1_main.eprj2` 的 boards 表为空，板框以 KiCad 为准，见 `hardware/IMPORT_ALPAKKA_TO_LCEDA.md`）。
 
+## 验证套件判据说明（enclosure_verify.py v12 如何判定 OK）
+
+> 套件输出中"自相交候选=N OK / 法线字段 a/b OK"的判定依据（可复现）：
+> - **自相交哨兵**：几何合法"共面相邻细分面"对（STL 独立三角格式无顶点索引所致，位置固定）记录为哨兵基线 `bottom=0 / top=17 / rods=0`；判定 `候选 ≤ 哨兵×2+1` 即 OK（top 17 = M3 沉孔台阶竖直壁-底面边界接触对）——候选增量意味着新穿透，会 FAIL。
+> - **法线字段判据**：`全零（tot==0）` 或 `反向占比 min(ng, tot−ng)==0` 为 OK——三 STL 为全零（Blender 导出标准，不写单位法线字段；切片器用顶点顺序不受影响）；**混乱（部分反向）会 FAIL**。
+> - **FINAL**：三 STL 水密/连通/开口/体积/退化/切片/自相交 + 装配间隙（0.250）+ 帽盘运动学（穿出 0.000）全部 OK 才输出 `FINAL: PASS`；任一 FAIL 即 `FINAL: FAIL` 并指明文件/项。
+
 ## 打印首版实测 QA 清单（装机后逐项验收）
 
 | # | 验收项 | 通过标准 | 不通过时 |
