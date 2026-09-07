@@ -2,6 +2,9 @@
 
 3D 打印外壳，覆盖 `superpad_v1_main` PCB（130 × 71.0 mm，主板，KiCad 工程 `alpakka.kicad_pcb`）+ Marmota 核心模块叠层（70 × 70 mm，B.Cu 侧板对板叠装）。
 
+![装配视图](_shot_full.png)
+![爆炸视图](_shot_exploded.png)
+
 > 来源：KiCad 工程 `hardware/alpakka_kicad/projects/alpakka/alpakka.kicad_pcb` + `marmota.kicad_pcb` 实测板框与元件位置（主板 X 35–165 / Y 25–96，叠放偏移 主板 = Marmota + (40, −5)）。
 > 风格：**按原版 Alpakka 曲面手柄造型重新设计**（161 × 100 mm 圆角矩形，角 R20、壁 2.5 mm），USB-C 从 -Y 短边出线，摇杆/编码器/按键从面板开孔穿出，**4 根独立按压杆（L2/R2/L4/R4）+ 2 根肩键楔形滑块 + 4 根 M3 螺丝柱（配螺纹孔）**。
 > 主要特点：**容纳主板背面 Marmota 模块叠层（11 mm）的深底壳（总深 34 mm）+ 曲面圆角面板顶盖（开孔让控件穿出）+ 一体式支撑/定位结构（挖腔留柱，与薄壳同源材料，无漂浮件）**。
