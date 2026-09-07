@@ -47,21 +47,27 @@ def audit(path):
             e2c[tuple(sorted((p, q)))].append(i)
     bnd = sum(1 for v in e2c.values() if len(v) == 1)
     nf = sum(1 for v in e2c.values() if len(v) > 2)
-    # 2) 连通分量
+    # 2) 连通分量 (记录每面归属 + 每分量边界边=分量级水密)
     seen, comps = set(), []
+    comp_of = {}
     for i in range(n):
         if i in seen: continue
-        st, c = [i], 0
-        seen.add(i)
+        st, c, cid = [i], 0, len(comps)
+        seen.add(i); comp_of[i] = cid
         while st:
             cur = st.pop(); c += 1
             for j in range(3):
                 p = tuple(round(x, 6) for x in tris[cur][j])
                 q = tuple(round(x, 6) for x in tris[cur][(j + 1) % 3])
                 for nb in e2c[tuple(sorted((p, q)))]:
-                    if nb not in seen: seen.add(nb); st.append(nb)
+                    if nb not in seen: seen.add(nb); st.append(nb); comp_of[nb] = cid
         comps.append(c)
     comps.sort(reverse=True)
+    comp_bnd = {}
+    for e, fs in e2c.items():
+        if len(fs) == 1:
+            comp_bnd[comp_of[fs[0]]] = comp_bnd.get(comp_of[fs[0]], 0) + 1
+    open_comps = sum(1 for v in comp_bnd.values() if v > 0)
     # 3) 体积(带符号) + 退化面 + winding
     vol, zero, neg = 0.0, 0, 0
     for t in tris:
@@ -125,7 +131,7 @@ def audit(path):
                 cosv = dot(na, nb) / (la * lb) if la * lb > 0 else 1.0
                 if abs(cosv) > 0.95: continue  # 共面/近共面相邻细分面(正常, 切片器自动合并)
                 pen += 1  # 非共面+质心距<0.5 = 真穿透
-    return dict(n=n, bnd=bnd, nf=nf, comps=comps, vol=vol / 1000, zero=zero, neg=neg, empty=empty, pen=pen)
+    return dict(n=n, bnd=bnd, nf=nf, comps=comps, vol=vol / 1000, zero=zero, neg=neg, empty=empty, pen=pen, ncomp=len(comps), open=open_comps)
 
 def assembly_check(bottom_tris, top_tris):
     """装配间隙: top 筒外壁(±77.75/±47.25) vs bottom 腔壁(±78/±47.5) = 0.25/边"""
@@ -174,16 +180,19 @@ def main():
         r = audit(os.path.join(base, f + ".stl"))
         results[f] = r
         pen_ok = r["pen"] <= base_pen[f] * 2 + 1
-        line = ("%s: %d tris | 边界=%d %s | 非流形=%d %s | 连通=%d | 体积=%.1fcm3 %s | 退化面=%d %s | winding负向=%d %s | 切片空层=%d %s | 自相交候选=%d %s"
+        open_ok = r["open"] == 0
+        line = ("%s: %d tris | 边界=%d %s | 非流形=%d %s | 连通=%d(分量%d) | 开口分量=%d %s | 体积=%.1fcm3 %s | 退化面=%d %s | winding负向=%d %s | 切片空层=%d %s | 自相交候选=%d %s"
                 % (f, r["n"], r["bnd"], "OK" if r["bnd"] == 0 else "FAIL",
                    r["nf"], "OK" if r["nf"] == 0 else "FAIL",
-                   r["comps"][0], r["vol"], "OK" if r["vol"] > 0 else "FAIL",
+                   r["comps"][0], r["ncomp"],
+                   r["open"], "OK" if open_ok else "FAIL",
+                   r["vol"], "OK" if r["vol"] > 0 else "FAIL",
                    r["zero"], "OK" if r["zero"] == 0 else "FAIL",
                    r["neg"], "OK" if r["neg"] < r["n"] * 0.5 else "FAIL",
                    r["empty"], "OK" if r["empty"] <= 1 else "FAIL",
                    r["pen"], "OK" if pen_ok else "FAIL"))
         print(line)
-        if r["bnd"] != 0 or r["nf"] != 0 or r["zero"] != 0 or not pen_ok: ok = False
+        if r["bnd"] != 0 or r["nf"] != 0 or r["zero"] != 0 or not pen_ok or not open_ok: ok = False
     # 装配级: bottom腔壁 vs top筒外壁 间隙 0.25/边
     gx, gy, aok = assembly_check(load_stl(os.path.join(base, "bottom.stl")),
                                  load_stl(os.path.join(base, "top.stl")))
