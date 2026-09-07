@@ -448,6 +448,6 @@ Blender z = 外壳坐标（底壳底 z=0，PCB 顶面 z=17 = 元件 z 中心 + �
 
 ## 维护与同步（PCB 修改后必读）
 
-维护：硬件外壳与 PCB 同步更新。任何 PCB 修改后应重新核对 STL 关键尺寸（板框、摇杆/编码器/按键位置、USB-C 位置、Marmota 叠层高度、元件旋转角），并重跑验证（水密 / 连通 / 体积断链 / 干涉）。
+维护：硬件外壳与 PCB 同步更新。**QA 双表同步**：`QA_first_build.md` 模板由本 README 的 QA 清单复制而来——任何 QA 项（编号/标准/处置）修改后必须同步更新模板（含 SHA 表行），防止双表漂移。任何 PCB 修改后应重新核对 STL 关键尺寸（板框、摇杆/编码器/按键位置、USB-C 位置、Marmota 叠层高度、元件旋转角），并重跑验证（水密 / 连通 / 体积断链 / 干涉）。
 
 **几何修改后的 STL 重新导出**（维护闭环）：`blender --background blender/enclosure.blend --python verify/export_stl.py`（默认导出到 `stl/`；可用 `-- 输出目录` 指定临时目录先对比）——脚本按对象名精确导出 `NB_back -> bottom.stl` / `NB_front -> top.stl` / Keycap×13+PressRod×4+Slider_L1/R1+EncExt -> `rods.stl`（占位对象不导出；已实测导出与交付 STL 三角数/字节完全一致）。导出后**必须**重跑验证套件并更新本 README 的 SHA 表/三角数/体积。
