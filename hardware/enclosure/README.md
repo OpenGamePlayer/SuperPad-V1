@@ -301,6 +301,7 @@ enclosure/
 | `_shot_full.png` | 698871 B | `7012b06403ca0dba` |
 | `_shot_exploded.png` | 805740 B | `2922923c72a2d331` |
 | `_shot_shell.png` | 690182 B | `302abaae2ec4992e` |
+| `verify/enclosure_verify.py` | 11665 B | `9b90c7a89dd4b284` |
 
 ## 嘉立创 EDA 协作工作流
 
