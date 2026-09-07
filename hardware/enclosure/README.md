@@ -313,6 +313,7 @@ Blender z = 外壳坐标（底壳底 z=0，PCB 顶面 z=17 = 元件 z 中心 + �
 ```
 
 主板中心对齐原点（0, 0, 0），X 轴为板长方向（130 mm），USB-C 在 -Y 短边（主板 y=25 边）。
+换算示例（已验证）：U1 摇杆 jlc(76.5, 75.0) → Blender(−23.5, 14.5)；U2 摇杆 jlc(134.0, 75.0) → Blender(34.0, 14.5)；Marmota 中心 jlc(100.0, 60.0) → Blender(0.0, −0.5)——全在板域 (X 35–165 / Y 25–96) 内。
 
 如需从 EDA 重新同步 PCB 元件位置，编辑 `enclosure.blend` 中 `PCB_Reference` 集合的子对象尺寸/位置即可。板框来源：`hardware/alpakka_kicad/projects/alpakka/alpakka.kicad_pcb`（嘉立创 `superpad_v1_main.eprj2` 的 boards 表为空，板框以 KiCad 为准，见 `hardware/IMPORT_ALPAKKA_TO_LCEDA.md`）。
 
