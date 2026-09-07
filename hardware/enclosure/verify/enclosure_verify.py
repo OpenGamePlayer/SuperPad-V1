@@ -198,6 +198,8 @@ def main():
     for f in ("bottom", "top", "rods"):
         r = audit(os.path.join(base, f + ".stl"))
         results[f] = r
+        pen_ok = r["pen"] <= base_pen[f] * 2 + 1
+        open_ok = r["open"] == 0
         ng, tot = normal_check(os.path.join(base, f + ".stl"))
         n_ok = tot > 0 and min(ng, tot - ng) == 0  # 全一致
         line = ("%s: %d tris | 边界=%d %s | 非流形=%d %s | 连通=%d(分量%d) | 开口分量=%d %s | 体积=%.1fcm3 %s | 退化面=%d %s | winding负向=%d %s | 切片空层=%d %s | 自相交候选=%d %s | 法线字段 %d/%d %s"
