@@ -322,10 +322,10 @@ enclosure/
 
 | 文件 | 大小 | SHA-256 |
 |---|---|---|
-| `bottom.stl` | 152284 B | `df20d125587dbccd` |
-| `top.stl` | 107484 B | `f0c9e75aa9427df3` |
-| `rods.stl` | 40,284 B | `cfba8062de71377a` |
-| `enclosure.blend` | 247,113 B | `8d04e2bfbd06cb9f` |
+| `stl/bottom.stl` | 152284 B | `df20d125587dbccd` |
+| `stl/top.stl` | 107484 B | `f0c9e75aa9427df3` |
+| `stl/rods.stl` | 40,284 B | `cfba8062de71377a` |
+| `blender/enclosure.blend` | 247,113 B | `8d04e2bfbd06cb9f` |
 | `_shot_full.png` | 698871 B | `7012b06403ca0dba` |
 | `_shot_exploded.png` | 805740 B | `2922923c72a2d331` |
 | `_shot_shell.png` | 690182 B | `302abaae2ec4992e` |
