@@ -1,6 +1,7 @@
 # SuperPad-V1 (Alpakka) 外壳
 
 > **交付版本 v1.0**（几何冻结，交付日期 2026-09-08 持续维护——最新 commit 日期为准）：bottom = back_v12（3044 三角 / 87.5 cm³）、top = front_v8（2148 三角 / 61.6 cm³）、rods = v6e（804 三角 / 9.2 cm³，20 件；v6e = v6d + 延长套杆盲孔——延长底部 Ø6.0×3 mm 盲孔套编码器杆（原实心无孔、旋转传动薄弱暗病已修）；v6d = v6 斜楔修订版——滑块帽 13.6×11.6/沉槽 14.2×12.0 收窄帽晃）。验证套件 `verify/enclosure_verify.py` v12 一键回归（水密/拓扑/装配/运动学/法线字段）。
+> **来源与许可**：外壳为适配 Input Labs Oy 开源项目 Alpakka（`alpakka.kicad_pcb`，KiCad 工程）PCB 外形/元件位而设计——上游版权/许可归 Input Labs Oy，见其官方仓库（`https://github.com/inputlabs/alpakka`）；本外壳文件（STL/blend/文档）为本项目原创。
 > **维护规则**：任何 STL 几何修改后必须重跑验证套件并更新本 README 的三角数/体积/版本映射；PCB 修改后按文末"维护"指引重核。
 
 3D 打印外壳，覆盖 `superpad_v1_main` PCB（130 × 71.0 mm，主板，KiCad 工程 `alpakka.kicad_pcb`）+ Marmota 核心模块叠层（70 × 70 mm，B.Cu 侧板对板叠装）。
