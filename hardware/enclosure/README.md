@@ -9,7 +9,7 @@
 ![装配视图](_shot_full.png)
 ![爆炸视图](_shot_exploded.png)
 
-> 来源：KiCad 工程 `hardware/alpakka_kicad/projects/alpakka/alpakka.kicad_pcb` + `hardware/alpakka_kicad/projects/marmota/marmota.kicad_pcb` 实测板框与元件位置（主板 X 35–165 / Y 25–96，叠放偏移 主板 = Marmota + (40, −4.5)（主板 jlc 中心 (100,60.5) − Marmota 中心 (60,65)——KiCad 板框实测））。
+> 来源：KiCad 工程 `hardware/alpakka_kicad/projects/alpakka/alpakka.kicad_pcb` + `hardware/alpakka_kicad/projects/marmota/marmota.kicad_pcb` 实测板框与元件位置（主板 X 35–165 / Y 25–96，叠放偏移：Marmota 板文件→主板工程平移 (40, −5)（J2 DF12 对齐：Marmota 板内 J2 (60,52) → 主板 J2 (100,47)=blend(0,−13.5)——平移 (40,−5)；Marmota 板中心随之 blend (0,−0.5)=jlc(100,60)——KiCad 板框+J2 实测，勿用两板框中心差））。
 > 风格：**按原版 Alpakka 曲面手柄造型重新设计**（161 × 100 mm 圆角矩形，角 R20、壁 2.5 mm），USB-C 从 -Y 短边出线，摇杆/编码器/按键从面板开孔穿出，**4 根独立按压杆（L2/R2/L4/R4）+ 2 根肩键楔形滑块 + 4 根 M3 螺丝柱（配螺纹孔）**。
 > 主要特点：**容纳主板背面 Marmota 模块叠层（11 mm）的深底壳（总深 34 mm）+ 曲面圆角面板顶盖（开孔让控件穿出）+ 一体式支撑/定位结构（挖腔留柱，与薄壳同源材料，无漂浮件）**。
 > 位置修正记录：摇杆 U2（rot 90°）、扳机 S19/S20（rot ±90°）的孔位方向已按 KiCad 元件旋转角修正；**S15/S16 为 SKHHL 侧按开关，改用楔形滑块传动按钮 + 11.6×14.8 孔 + 沉槽 14.2×12.0；扳机 S17–S20 按 SKQG（6 × 6 mm）开 9.0 × 9.0 方形孔**（帽 8.5×8.5 藏孔内导向）。
