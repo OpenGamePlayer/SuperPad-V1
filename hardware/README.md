@@ -15,7 +15,7 @@ SuperPad-V1 硬件设计目录。
 
 - [ ] 在嘉立创 EDA 专业版导入 `alpakka_kicad/`，生成可编辑的 `.eprj2`（按 `IMPORT_ALPAKKA_TO_LCEDA.md` 操作）
 - [ ] 对照 Alpakka 参考设计完善 `superpad_v1_main.eprj2`
-- [ ] 生成并核对 BOM（参照 `docs/` 上游 BOM 与嘉立创料号）
+- [ ] 生成并核对 BOM（参照根目录 `BOM.md` 与上游 Alpakka BOM——github.com/inputlabs/alpakka_pcb 的 docs/——及嘉立创料号）
 
 ## 许可提醒
 
