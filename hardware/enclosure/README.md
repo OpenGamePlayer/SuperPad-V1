@@ -335,7 +335,7 @@ enclosure/
 ```
 Blender x = jlc_x_mm − 100
 Blender y = jlc_y_mm − 60.5
-Blender z = 外壳坐标（底壳底 z=0，PCB 顶面 z=17 = 元件 z 中心 + 板厚/2）
+Blender z = 外壳坐标（底壳底 z=0；PCB 板 z 中心 16.2 + 板厚 1.6/2 = 顶面 z17——元件底齐 17、元件高向上，元件 z 中心各异不适用此式）
 ```
 
 主板中心对齐原点（0, 0, 0），X 轴为板长方向（130 mm），USB-C 在 -Y 短边（主板 y=25 边）。
